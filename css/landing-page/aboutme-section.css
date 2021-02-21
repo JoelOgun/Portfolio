@@ -1,0 +1,41 @@
+#about-me {
+  padding: 80px 15px;
+}
+#about-me .title {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+#about-me .title .circle {
+  background: #eef9ff;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: absolute;
+  top: 23px;
+}
+#about-me .title h1 {
+  position: relative;
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #16171b;
+  z-index: 1;
+}
+#about-me p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #b3b3b3;
+  text-align: center;
+}
+
+/* Tablets */
+@media only screen and (max-width: 960px) {
+}
+/* Phones */
+@media only screen and (max-width: 767px) {
+}
