@@ -59,6 +59,8 @@ should be totaled and displayed for the user.
 let activitiesFieldset = document.getElementById("activities");
 let activitiesCost = document.getElementById("activities-cost");
 let totalCost = 0;
+let activitiesInputs = document.querySelectorAll("input[type=checkbox]");
+
 /*  
 When an activity or activities are checked/selected the total cost will be shown
 if an activity/activities are unchecked/ unselected the cost will be updated to show new total cost
@@ -75,7 +77,34 @@ activitiesFieldset.addEventListener("change", (e) => {
     console.log(totalCost);
     console.log(e.target.checked);
   }
-  activitiesCost.innerHTML = `Total : ${totalCost}`;
+  activitiesCost.innerHTML = `Total : $ ${totalCost}`;
+  // extra credit. Prevent selecting events that are on the same day and time
+  let dataDateTime = e.target.getAttribute("data-day-and-time");
+  let selected = e.target;
+  if (selected.checked) {
+    for (let i = 0; i < activitiesInputs.length; i++) {
+      if (
+        dataDateTime ===
+          activitiesInputs[i].getAttribute("data-day-and-time") &&
+        selected !== activitiesInputs[i]
+      ) {
+        activitiesInputs[i].disabled = true;
+        activitiesInputs[i].parentElement.classList.add("disabled");
+      }
+    }
+  } else {
+    for (let i = 0; i < activitiesInputs.length; i++) {
+      if (
+        dataDateTime ===
+          activitiesInputs[i].getAttribute("data-day-and-time") &&
+        selected !== activitiesInputs[i]
+      ) {
+        activitiesInputs[i].disabled = false;
+        activitiesInputs[i].parentElement.classList.remove("disabled");
+        activitiesInputs[i].parentElement.classList.add("abled");
+      }
+    }
+  }
 });
 /* The credit card payment displayed by default  while the other payment form sections are hidden until they are selected . */
 let payWithSelect = document.getElementById("payment");
@@ -105,7 +134,7 @@ payWithSelect.addEventListener("change", (e) => {
 });
 /* accessibility focus on activity selected and focus go away when selecting another one. 
 It is more obvious which activity is selected */
-let activitiesInputs = document.querySelectorAll("input[type=checkbox]");
+//let activitiesInputs = document.querySelectorAll("input[type=checkbox]");
 for (let i = 0; i < activitiesInputs.length; i++) {
   activitiesInputs[i].addEventListener("focus", (e) => {
     activitiesInputs[i].parentElement.classList.add("focus");
@@ -114,6 +143,57 @@ for (let i = 0; i < activitiesInputs.length; i++) {
     activitiesInputs[i].parentElement.classList.remove("focus");
   });
 }
+// validate section prevent submit if invaild
+nameInput;
+let emailInput = document.getElementById("email");
+activitiesFieldset;
+let creditCardNumber = document.getElementById("cc-num");
+let zipCodeInput = document.getElementById("zip");
+let cVVInput = document.getElementById("cvv");
+let form = document.forms[0];
+let submitBtn = document.querySelector("button[type=submit]");
+
+// name field validation
+const nameValidating = () => {
+  let nameValue = nameInput.value;
+  let regName = /^[a-zA-Z ]{1,50}$/;
+  let nameValidationTest = regName.test(nameValue);
+  return nameValidationTest;
+};
+// email validation
+const emailValidating = () => {
+  let emailValue = emailInput.value;
+  let regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  let emailValidationTest = regEmail.test(emailValue);
+  return emailValidationTest;
+};
+// at least one activity is selected before submitting
+const activityValidating = () => {
+  let noActivity = 0;
+  let activityValidationTest = totalCost > noActivity;
+  return activityValidationTest;
+};
+// credit card number is valid 13-16 digits
+const cardCreditNumValidating = () => {
+  let creditCardValue = creditCardNumber.value;
+  let regCreditCard = /^[0-9]{13,16}$/;
+  let creditCardValidationTest = regCreditCard.test(creditCardValue);
+  return creditCardValidationTest;
+};
+// 5 digit zip code validation
+const zipCodeValidating = () => {
+  let zipCodeValue = zipCodeInput.value;
+  let regZipCode = /^\d{5}$/;
+  let zipCodeValidationTest = regZipCode.test(zipCodeValue);
+  return zipCodeValidationTest;
+};
+// CVV is 3 digits validation
+const cVVValidating = () => {
+  let cVVValue = cVVInput.value;
+  let regCVV = /^[0-9]{3,}$/;
+  let cVVValidationTest = regCVV.test(cVVValue);
+  return cVVValidationTest;
+};
 // Form validation function instead of adding classlist and removing to each element. DRY Principle
 function validationValid(element) {
   element.classList.add("valid");
@@ -125,83 +205,56 @@ function validationError(element) {
   element.classList.remove("valid");
   element.lastElementChild.style.display = "block";
 }
+let hintName = nameInput.parentElement;
+let hintEmail = emailInput.parentElement;
+let hintActivity = document.getElementById("activities-hint");
+let pHintActivity = hintActivity.parentElement;
+let hintCreditCard = creditCardNumber.parentElement;
+let hintZipCode = zipCodeInput.parentElement;
+let hintCVV = cVVInput.parentElement;
 
-// validate section prevent submit if invaild
-nameInput;
-let emailInput = document.getElementById("email");
-activitiesFieldset;
-let creditCardNumber = document.getElementById("cc-num");
-let zipCodeInput = document.getElementById("zip");
-let cVVInput = document.getElementById("cvv");
-let form = document.forms[0];
-// name field validation
+// Form should not submit until all required field is valid
 form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  let nameValue = nameInput.value;
-  let regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
-  let nameValidationTest = regName.test(nameValue);
-  let hintName = nameInput.parentElement;
-  if (!nameValidationTest) {
+  if (!nameValidating()) {
     validationError(hintName);
     e.preventDefault();
   } else {
     validationValid(hintName);
   }
-  // email field validation
-  let emailValue = emailInput.value;
-  let regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  let emailValidationTest = regEmail.test(emailValue);
-  let hintEmail = emailInput.parentElement;
-  if (!emailValidationTest) {
+  if (!emailValidating()) {
     validationError(hintEmail);
     e.preventDefault();
   } else {
     validationValid(hintEmail);
   }
-  // Validate to pick at least one activity
-  let noActivity = 0;
-  let hintActivity = document.getElementById("activities-hint");
-  //let hintActivity = activitiesInputs[i].parentElement;
-  if (noActivity === totalCost) {
-    hintActivity.parentElement.classList.add("not-valid");
-    hintActivity.parentElement.classList.remove("valid");
-    hintActivity.parentElement.lastElementChild.style.display = "inline";
+  if (!activityValidating()) {
+    //hintActivity.parentElement.classList.add("not-valid");
+    //hintActivity.parentElement.classList.remove("valid");
+    //hintActivity.parentElement.lastElementChild.style.display = "inline";
+    validationError(pHintActivity);
+    e.preventDefault();
   } else {
-    hintActivity.parentElement.classList.remove("not-valid");
-    hintActivity.parentElement.classList.add("valid");
-    hintActivity.parentElement.lastElementChild.style.display = "none";
+    //hintActivity.parentElement.classList.remove("not-valid");
+    //hintActivity.parentElement.classList.add("valid");
+    //hintActivity.parentElement.lastElementChild.style.display = "none";
+    validationValid(pHintActivity);
   }
-
-  // Validate only if credit card is selected
   if (payWithSelect.value === "credit-card") {
-    let creditCardValue = creditCardNumber.value;
-    // regExp from w3resource to validate visa card starting with 4 length 13 or 16 digits
-    let regCreditCard = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
-    let creditCardValidationTest = regCreditCard.test(creditCardValue);
-    let hintCreditCard = creditCardNumber.parentElement;
-    if (!creditCardValidationTest) {
+    if (!cardCreditNumValidating()) {
       validationError(hintCreditCard);
-      e.preventDefault;
+      e.preventDefault();
     } else {
       validationValid(hintCreditCard);
     }
-    let zipCodeValue = zipCodeInput.value;
-    let regZipCode = /^\d{5}$/;
-    let zipCodeValidationTest = regZipCode.test(zipCodeValue);
-    let hintZipCode = zipCodeInput.parentElement;
-    if (!zipCodeValidationTest) {
+    if (!zipCodeValidating()) {
       validationError(hintZipCode);
-      e.preventDefault;
+      e.preventDefault();
     } else {
       validationValid(hintZipCode);
     }
-    let cVVValue = cVVInput.value;
-    let regCVV = /^[0-9]{3,}$/;
-    let cVVValidationTest = regCVV.test(cVVValue);
-    let hintCVV = cVVInput.parentElement;
-    if (!cVVValidationTest) {
+    if (!cVVValidating()) {
       validationError(hintCVV);
-      e.preventDefault;
+      e.preventDefault();
     } else {
       validationValid(hintCVV);
     }
