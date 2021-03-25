@@ -260,3 +260,23 @@ form.addEventListener("submit", (e) => {
     }
   }
 });
+
+/* function creditCardValidTest(creditCardNumber) {
+  let creditCardValue = creditCardNumber.value;
+  // regExp from w3resource to validate visa card starting with 4 length 13 or 16 digits
+  let regCreditCard = /^[0-9]{13,16}$/;
+  let creditCardValidationTest = regCreditCard.test(creditCardValue);
+  return creditCardValidationTest;
+}
+function zipCodeValidTest(zipCodeInput) {
+  let zipCodeValue = zipCodeInput.value;
+  let regZipCode = /^\d{5}$/;
+  let zipCodeValidationTest = regZipCode.test(zipCodeValue);
+  return zipCodeValidationTest;
+}
+function cVVValidTest(cVVInput) {
+  let cVVValue = cVVInput.value;
+  let regCVV = /^[0-9]{3,}$/;
+  let cVVValidationTest = regCVV.test(cVVValue);
+  return cVVValidationTest;
+} */
