@@ -86,7 +86,7 @@
 }
 /* Box Locations */
 #portfolio-section .portfolio-container .box.image1 {
-  grid-column: 1/3;
+  grid-column: 1/2;
   grid-row: 1 / 2;
 }
 #portfolio-section .portfolio-container .box.image1 .image {
@@ -163,6 +163,42 @@
 }
 #portfolio-section .portfolio-container .box.image7 .image {
   background: url("../../img/PhraseHunterImg.png");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+#portfolio-section .portfolio-container .box.image8 {
+  grid-column: 4/5;
+  grid-row: 1/ 3;
+}
+#portfolio-section .portfolio-container .box.image8 .image {
+  background: url("../../img/AwesomeStartupImg.png");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+#portfolio-section .portfolio-container .box.image9 {
+  grid-column: 2/3;
+  grid-row: 1/ 2;
+}
+#portfolio-section .portfolio-container .box.image9 .image {
+  background: url("https://cdn.dribbble.com/users/210795/screenshots/10830263/media/84d9c77c632e9702beb0bad3a0a3a5d0.gif");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+#portfolio-section .portfolio-container .box.image10 {
+  grid-column: 4/5;
+  grid-row: 3/ 4;
+}
+#portfolio-section .portfolio-container .box.image10 .image {
+  background: url("https://cdn.dribbble.com/users/231966/screenshots/15051251/media/b6133454eec63d7c9615082d04cbdb40.png");
   height: 100%;
   width: 100%;
   background-size: cover;
